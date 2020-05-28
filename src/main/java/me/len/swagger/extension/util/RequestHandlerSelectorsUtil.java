@@ -1,4 +1,4 @@
-package com.github.length.swagger.extension.util;
+package me.len.swagger.extension.util;
 /*
  * Created at 2020-03-17.
  */

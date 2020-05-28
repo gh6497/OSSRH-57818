@@ -8,7 +8,7 @@
         <version>2.2.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.github.length</groupId>
+    <groupId>me.len</groupId>
     <artifactId>swagger-extension</artifactId>
     <version>0.0.1</version>
     <name>Swagger Extension</name>
@@ -151,6 +151,17 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <configuration>
+                            <autoVersionSubmodules>true</autoVersionSubmodules>
+                            <tagNameFormat>v@{project.version}</tagNameFormat>
+                            <generateReleasePoms>false</generateReleasePoms>
+                            <arguments>-DskipTests</arguments>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

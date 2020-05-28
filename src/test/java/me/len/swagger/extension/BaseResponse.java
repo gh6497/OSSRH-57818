@@ -1,4 +1,4 @@
-package com.github.length.swagger.extension;
+package me.len.swagger.extension;
 
 import lombok.Getter;
 import lombok.Setter;

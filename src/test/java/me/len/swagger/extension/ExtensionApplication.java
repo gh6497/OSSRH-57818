@@ -1,13 +1,13 @@
-package com.github.length.swagger.extension;
+package me.len.swagger.extension;
 
-import com.github.length.swagger.extension.handler.ByteBuddyClassCreator;
-import com.github.length.swagger.extension.plugin.ApiJsonOperationModelsProviderPlugin;
-import com.github.length.swagger.extension.plugin.ParameterPlugin;
-import com.github.length.swagger.extension.plugin.ResponsePlugin;
+import me.len.swagger.extension.annotation.ApiJsonObject;
+import me.len.swagger.extension.annotation.ApiJsonObjects;
+import me.len.swagger.extension.annotation.ApiJsonProperty;
+import me.len.swagger.extension.handler.ByteBuddyClassCreator;
+import me.len.swagger.extension.plugin.ApiJsonOperationModelsProviderPlugin;
+import me.len.swagger.extension.plugin.ParameterPlugin;
+import me.len.swagger.extension.plugin.ResponsePlugin;
 import com.fasterxml.classmate.TypeResolver;
-import com.github.length.swagger.extension.annotation.ApiJsonObject;
-import com.github.length.swagger.extension.annotation.ApiJsonObjects;
-import com.github.length.swagger.extension.annotation.ApiJsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ResponseHeader;
 import lombok.*;

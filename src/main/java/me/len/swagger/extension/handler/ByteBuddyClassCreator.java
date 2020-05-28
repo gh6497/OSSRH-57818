@@ -1,8 +1,8 @@
-package com.github.length.swagger.extension.handler;
+package me.len.swagger.extension.handler;
 
-import com.github.length.swagger.extension.annotation.ApiJsonObject;
-import com.github.length.swagger.extension.annotation.ApiJsonProperty;
-import com.github.length.swagger.extension.util.ApiJsonUtil;
+import me.len.swagger.extension.annotation.ApiJsonObject;
+import me.len.swagger.extension.annotation.ApiJsonProperty;
+import me.len.swagger.extension.util.ApiJsonUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.RequiredArgsConstructor;

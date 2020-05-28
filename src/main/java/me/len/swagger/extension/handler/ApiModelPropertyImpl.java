@@ -1,4 +1,4 @@
-package com.github.length.swagger.extension.handler;
+package me.len.swagger.extension.handler;
 
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.Extension;

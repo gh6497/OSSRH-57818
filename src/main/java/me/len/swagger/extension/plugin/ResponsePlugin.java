@@ -1,7 +1,7 @@
-package com.github.length.swagger.extension.plugin;
+package me.len.swagger.extension.plugin;
 
-import com.github.length.swagger.extension.annotation.ApiJsonObject;
-import com.github.length.swagger.extension.util.ApiJsonUtil;
+import me.len.swagger.extension.annotation.ApiJsonObject;
+import me.len.swagger.extension.util.ApiJsonUtil;
 import com.fasterxml.classmate.ResolvedType;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

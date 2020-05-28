@@ -1,6 +1,6 @@
-package com.github.length.swagger.extension.handler;
+package me.len.swagger.extension.handler;
 
-import com.github.length.swagger.extension.annotation.ApiJsonObject;
+import me.len.swagger.extension.annotation.ApiJsonObject;
 
 /**
  * @author Len

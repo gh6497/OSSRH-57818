@@ -1,7 +1,7 @@
-package com.github.length.swagger.extension.util;
+package me.len.swagger.extension.util;
 
-import com.github.length.swagger.extension.annotation.ApiJsonObject;
-import com.github.length.swagger.extension.annotation.ApiJsonObjects;
+import me.len.swagger.extension.annotation.ApiJsonObject;
+import me.len.swagger.extension.annotation.ApiJsonObjects;
 import com.google.common.base.Optional;
 import lombok.experimental.UtilityClass;
 import lombok.val;
