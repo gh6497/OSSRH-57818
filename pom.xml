@@ -169,6 +169,7 @@
                             <tagNameFormat>v@{project.version}</tagNameFormat>
                             <generateReleasePoms>false</generateReleasePoms>
                             <arguments>-DskipTests</arguments>
+                            <username>gh6497</username>
                         </configuration>
                     </plugin>
                 </plugins>
