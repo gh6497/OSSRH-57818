@@ -1,18 +1,20 @@
 package me.len.swagger.extension.handler;
 
+import io.swagger.annotations.Extension;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import me.len.swagger.extension.annotation.ApiJsonObject;
 import me.len.swagger.extension.annotation.ApiJsonProperty;
 import me.len.swagger.extension.util.ApiJsonUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.RequiredArgsConstructor;
-import lombok.val;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.NamingStrategy;
 import net.bytebuddy.description.modifier.Visibility;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
 
+import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.List;
 
@@ -95,6 +97,175 @@ public class ByteBuddyClassCreator implements ClassCreator {
         apiModel.setValue(value);
         apiModel.setDescription(description);
         return apiModel;
+    }
+
+    @Setter
+    @ToString
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    @SuppressWarnings("all")
+    private static class ApiModelImpl implements ApiModel {
+        String value = "";
+
+        String description = "";
+
+        Class<?> parent = Void.class;
+
+        String discriminator = "";
+
+        String reference = "";
+
+        Class<?>[] subTypes = new Class<?>[0];
+
+        @Override
+        public String value() {
+            return value;
+        }
+
+        @Override
+        public String description() {
+            return description;
+        }
+
+        @Override
+        public Class<?> parent() {
+            return parent;
+        }
+
+        @Override
+        public String discriminator() {
+            return discriminator;
+        }
+
+        @Override
+        public Class<?>[] subTypes() {
+            return subTypes;
+        }
+
+        @Override
+        public String reference() {
+            return reference;
+        }
+
+        @Override
+        public Class<? extends Annotation> annotationType() {
+            return ApiModel.class;
+        }
+    }
+    @Setter
+    @ToString
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    @SuppressWarnings("all")
+    private static class ApiModelPropertyImpl implements ApiModelProperty {
+
+        String value = "";
+
+        String name = "";
+
+        String allowableValues = "";
+
+        String access = "";
+
+        String notes = "";
+
+        String dataType = "";
+
+        boolean required;
+
+        int position;
+
+        boolean hidden;
+
+        String example = "";
+
+        boolean readOnly;
+
+        AccessMode accessMode = AccessMode.AUTO;
+
+        String reference = "";
+
+        boolean allowEmptyValue;
+
+        Extension[] extensions = new Extension[0];
+
+        @Override
+        public String value() {
+            return value;
+        }
+
+        @Override
+        public String name() {
+            return name;
+        }
+
+        @Override
+        public String allowableValues() {
+            return allowableValues;
+        }
+
+        @Override
+        public String access() {
+            return access;
+        }
+
+        @Override
+        public String notes() {
+            return notes;
+        }
+
+        @Override
+        public String dataType() {
+            return dataType;
+        }
+
+        @Override
+        public boolean required() {
+            return required;
+        }
+
+        @Override
+        public int position() {
+            return position;
+        }
+
+        @Override
+        public boolean hidden() {
+            return hidden;
+        }
+
+        @Override
+        public String example() {
+            return example;
+        }
+
+        @Override
+        public boolean readOnly() {
+            return readOnly;
+        }
+
+        @Override
+        public AccessMode accessMode() {
+            return accessMode;
+        }
+
+        @Override
+        public String reference() {
+            return reference;
+        }
+
+        @Override
+        public boolean allowEmptyValue() {
+            return allowEmptyValue;
+        }
+
+        @Override
+        public Extension[] extensions() {
+            return extensions;
+        }
+
+        @Override
+        public Class<? extends Annotation> annotationType() {
+            return ApiModelProperty.class;
+        }
     }
 
 }

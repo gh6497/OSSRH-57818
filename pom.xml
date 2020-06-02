@@ -125,16 +125,15 @@
                             </execution>
                         </executions>
                     </plugin>
-<!--                    <plugin>
+                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-&lt;!&ndash;                        <version>3.0.1</version>&ndash;&gt;
+<!--                        <version>3.0.1</version>-->
                         <configuration>
                             <additionalJOption>-Xdoclint:none</additionalJOption>
                             <charset>UTF-8</charset>
                             <encoding>UTF-8</encoding>
                             <docencoding>UTF-8</docencoding>
-                            <excludes>ApiModelImpl.java,ApiModelPropertyImpl.java</excludes>
                         </configuration>
                         <executions>
                             <execution>
@@ -144,7 +143,7 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>-->
+                    </plugin>
                     <!--  必须配置GPG插件用于使用以下配置对组件进行签名 -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
