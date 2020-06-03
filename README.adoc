@@ -3,7 +3,7 @@
 :source-highlighter: highlightjs
 :sectnums:
 
-接口的响应并不总是复杂的，可能又是需要返回一个资源id，如果新建一个类，这个类只有一个属性有点没必要，如果返回map，swagger不能内省响应信息。本项目采用javaassit库运行时动态生成JavaBean类，帮助swagger完成内省
+接口的响应并不总是复杂的，可能仅需要返回一个资源id，如果新建一个类，这个类只有一个属性有点没必要，如果返回map，swagger不能内省响应信息。本项目采用ByteBuddy库运行时动态生成JavaBean类，帮助swagger完成内省
 [[maven-localtion]]
 == maven坐标
 
