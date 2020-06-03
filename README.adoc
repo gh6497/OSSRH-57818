@@ -133,3 +133,9 @@ public class SomeController {
 }
 
 ----
+
+
+=== 效果
+image::images/p.png[parameter]
+
+image::images/R.png[response]
