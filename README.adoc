@@ -1,154 +1,33 @@
+[[swagger-extension]]
 = swagger注解的扩展
 :source-highlighter: highlightjs
+:sectnums:
 
 接口的响应并不总是复杂的，可能又是需要返回一个资源id，如果新建一个类，这个类只有一个属性有点没必要，如果返回map，swagger不能内省响应信息。本项目采用javaassit库运行时动态生成JavaBean类，帮助swagger完成内省
+[[maven-localtion]]
+== maven坐标
 
+[source,xml]
+----
+<dependency>
+    <groupId>io.github.gh6497</groupId>
+    <artifactId>swagger-extension</artifactId>
+    <version>0.0.1</version>
+</dependency>
+
+----
+
+
+[[usage]]
 == 用法
 
-.Application.java
+.SwaggerConfig.java
 [source,java]
 ----
-package cn.len.swagger.extension;
 
-import me.len.swagger.extension.annotation.ApiJsonObject;
-import me.len.swagger.extension.annotation.ApiJsonObjects;
-import me.len.swagger.extension.annotation.ApiJsonProperty;
-import me.len.swagger.extension.plugin.ApiJsonOperationModelsProviderPlugin;
-import me.len.swagger.extension.plugin.ParameterPlugin;
-import me.len.swagger.extension.plugin.ResponsePlugin;
-import com.fasterxml.classmate.TypeResolver;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ResponseHeader;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.TypeNameExtractor;
-import springfox.documentation.schema.WildcardType;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.common.SwaggerPluginSupport;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import java.util.Collections;
-import java.util.Map;
-
-import static springfox.documentation.schema.AlternateTypeRules.newRule;
-
-@SpringBootApplication
+@Configuration(proxyBeanMethods = false)
 @EnableSwagger2
-@RequiredArgsConstructor
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-@RestController
-@RequestMapping("/test")
-public class ExtensionApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(ExtensionApplication.class, args);
-    }
-
-    @GetMapping("/parameter")
-    public void testParameter(
-        @RequestBody
-        @ApiJsonObject(name = "Parameter", properties =
-            {
-                @ApiJsonProperty(name = "username"),
-                @ApiJsonProperty(name = "name", clazz = TestBean.class)
-            })
-            Map<String, Object> stringObjectMap) {
-
-    }
-
-    @ApiJsonObject(name = "ReturnType", properties =
-        {
-            @ApiJsonProperty(name = "username"),
-            @ApiJsonProperty(name = "age", clazz = Integer.class),
-            @ApiJsonProperty(name = "name", clazz = TestBean.class)
-        })
-    @GetMapping("/return-type")
-    public Map<String, Object> returnType() {
-
-        return Collections.EMPTY_MAP;
-    }
-
-
-    @GetMapping("entity")
-    public ResponseEntity<TestBean> entity() {
-        val testBean = new TestBean();
-        testBean.setUsername("username");
-        return ResponseEntity.ok(testBean);
-    }
-
-
-    @GetMapping("/parameter-return-type")
-    public Map<String, Object> parameterReturnType(@RequestBody Map<String, Object> stringObjectMap) {
-        return Collections.EMPTY_MAP;
-    }
-
-
-    @ApiJsonObjects(
-        {
-            @ApiJsonObject(name = "Objects1", properties = {@ApiJsonProperty(name = "username1")}, code = 400,
-                responseHeaders = {@ResponseHeader(name = "hhh", response = String.class)}, message = "Bad Request"),
-            @ApiJsonObject(name = "Objects2", properties = {@ApiJsonProperty(name = "username2")}, code = 401)}
-    )
-    @ApiJsonObject(name = "Objects0", properties =
-        {
-            @ApiJsonProperty(name = "username"),
-            @ApiJsonProperty(name = "name", clazz = TestBean.class)
-        })
-    @GetMapping("/api-json-objects")
-    public Map<String, Object> apiJsonObjects() {
-        return Collections.EMPTY_MAP;
-    }
-
-
-    @GetMapping("base-response")
-    public BaseResponse<TestBean> baseResponse() {
-        val testBeanBaseResponse = new BaseResponse<TestBean>();
-        val data = new TestBean();
-        data.setUsername("username");
-        testBeanBaseResponse.setData(data);
-        return testBeanBaseResponse;
-    }
-
-
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-            .title("swagger-extension")
-            .contact(new Contact("len.cai", "https://blog.csdn.net/csdn6497", "len.cai@yunlsp.com"))
-            .version("1.0")
-            .description("swagger-extension")
-            .build();
-    }
-
-    @Bean
-    public Docket docket(TypeResolver typeResolver) {
-
-        return new Docket(DocumentationType.SWAGGER_2)
-            .select()
-            .apis(RequestHandlerSelectors.basePackage("cn.len.swagger.extension"))
-            .paths(PathSelectors.any())
-            .build()
-            .useDefaultResponseMessages(false)
-            .alternateTypeRules(newRule(typeResolver.resolve(BaseResponse.class, WildcardType.class),
-                typeResolver.resolve(WildcardType.class)))
-            .apiInfo(apiInfo());
-    }
-
-
+public class SwaggerConfig {
     @Order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER + 1000)
     @Bean
     public ResponsePlugin responsePlugin(TypeNameExtractor typeNameExtractor) {
@@ -157,22 +36,51 @@ public class ExtensionApplication {
 
     @Bean
     public ApiJsonOperationModelsProviderPlugin apiJsonOperationModelsProviderPlugin(TypeResolver typeResolver) {
-        return new ApiJsonOperationModelsProviderPlugin(typeResolver, new ClassCreator());
+        return new ApiJsonOperationModelsProviderPlugin(typeResolver, new ByteBuddyClassCreator());
     }
 
     @Order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER + 1000)
     @Bean
-    public ParameterPlugin parameterPlugin(TypeNameExtractor typeNameExtractor) {
-        return new ParameterPlugin(typeNameExtractor);
+    public ParameterPlugin parameterPlugin(TypeNameExtractor typeNameExtractor,TypeResolver typeResolver) {
+        return new ParameterPlugin(typeNameExtractor,typeResolver);
     }
 
-    @Getter
-    @Setter
-    @ToString
-    @FieldDefaults(level = AccessLevel.PRIVATE)
-    public static class TestBean {
-        @ApiModelProperty(value = "用户名", required = true)
-        String username;
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+          .title("swagger-extension")
+          .contact(new Contact("len", "https://blog.csdn.net/csdn6497", "lencai@live.cn"))
+          .version("1.0")
+          .description("swagger-extension-usage")
+          .build();
+    }
+
+    @Bean
+    public Docket docket(TypeResolver typeResolver) {
+
+        return new Docket(DocumentationType.SWAGGER_2)
+          .select()
+          .apis(RequestHandlerSelectors.basePackage("me.len.swagger.extension"))
+          .paths(PathSelectors.any())
+          .build()
+          .useDefaultResponseMessages(false)
+          .apiInfo(apiInfo());
+    }
+}
+
+----
+
+
+
+
+.Application.java
+[source,java]
+----
+
+@SpringBootApplication
+public class ExtensionApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(ExtensionApplication.class, args);
     }
 
 }
@@ -180,3 +88,48 @@ public class ExtensionApplication {
 ----
 
 
+.SomeController.java
+[source,java]
+----
+@RestController
+@RequestMapping("/some")
+public class SomeController {
+    @GetMapping("response")
+    @ApiJsonObject(
+      name = "Response",
+      properties = {
+        @ApiJsonProperty(name = "id", value = "id", clazz = Integer.class),
+        @ApiJsonProperty(name = "hobbies", value = "爱好", container = "List"),
+        @ApiJsonProperty(name = "subject", value = "科目", clazz = Subject.class)
+      }
+    )
+    public Map<String, Object> response() {
+        return Collections.emptyMap();
+    }
+
+    @PostMapping("parameters")
+    public void parameters(@RequestBody
+                           @ApiJsonObject(
+                             name = "Parameter",
+                             properties = {
+                               @ApiJsonProperty(name = "id", value = "id", clazz = Integer.class),
+                               @ApiJsonProperty(name = "hobbies", value = "爱好", container = "List"),
+                               @ApiJsonProperty(name = "subject", value = "科目", clazz = Subject.class)})
+
+                             Map<String, Object> requestBody) {
+
+    }
+
+
+    @Getter
+    @Setter
+    @ToString
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class Subject {
+        @ApiModelProperty(value = "名称")
+        String name;
+    }
+
+}
+
+----
