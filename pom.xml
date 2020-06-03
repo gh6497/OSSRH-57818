@@ -9,7 +9,7 @@
     </parent>
     <groupId>io.github.gh6497</groupId>
     <artifactId>swagger-extension</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <name>Swagger Extension</name>
     <description>Swagger Extension</description>
     <url>https://github.com/gh6497/swagger-extension/tree/master</url>
